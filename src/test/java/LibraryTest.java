@@ -34,4 +34,19 @@ public class LibraryTest {
         //then
         assertFalse(libraryBooks.isEmpty());
     }
+
+    @Test
+    void shouldRemoveBookFromLibrary() {
+        //given
+        List<Book> books = new ArrayList<>();
+        Book book = new Book();
+        books.add(book);
+        Library library = new Library(books);
+
+        //when
+        library.remove(book);
+
+        //then
+        assertTrue(library.getBooks().isEmpty());
+    }
 }

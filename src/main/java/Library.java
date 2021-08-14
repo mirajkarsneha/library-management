@@ -11,4 +11,8 @@ public class Library {
     public List<Book> getBooks() {
         return books;
     }
+
+    public void remove(Book book) {
+        books.remove(book);
+    }
 }
