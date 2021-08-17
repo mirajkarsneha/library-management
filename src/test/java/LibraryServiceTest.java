@@ -42,4 +42,20 @@ public class LibraryServiceTest {
         //then
         assertEquals("can not borrow more than 2 books", exception.getMessage());
     }
+
+    @Test
+    void shouldReturnABookToLibrary() {
+        //given
+        Map<String, Integer> libraryBooks = new HashMap<>();
+        libraryBooks.put("Maths", 1);
+        libraryBooks.put("Science", 1);
+        Library library = new Library(libraryBooks);
+
+        //when
+        LibraryService libraryService = new LibraryService(library);
+        libraryService.returnBook("Science");
+
+        //then
+        assertEquals(2, library.getBooks().get("Science"));
+    }
 }

@@ -21,4 +21,8 @@ public class LibraryService {
     public Map<String, Integer> getBorrowedBooks() {
         return borrowedBooks;
     }
+
+    public void returnBook(String bookName) {
+        library.add(bookName);
+    }
 }

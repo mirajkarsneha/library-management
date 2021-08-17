@@ -20,4 +20,8 @@ public class Library {
             books.remove(bookName);
         }
     }
+
+    public void add(String bookName) {
+        books.merge(bookName, 1, Integer::sum);
+    }
 }
