@@ -1,21 +1,20 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.Collections.emptyMap;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LibraryTest {
 
     @Test
     void shouldGetNoBooksInEmptyLibrary() {
         //given
-        Library library = new Library(emptyList());
+        Library library = new Library(emptyMap());
 
         //when
-        List<Book> books = library.getBooks();
+        Map<String, Integer> books = library.getBooks();
 
         //then
         assertTrue(books.isEmpty());
@@ -24,27 +23,41 @@ public class LibraryTest {
     @Test
     void shouldGetBooksInLibrary() {
         //given
-        List<Book> books = new ArrayList<>();
-        books.add(new Book());
+        Map<String, Integer> books = new HashMap<>();
+        books.put("Maths", 2);
         Library library = new Library(books);
 
         //when
-        List<Book> libraryBooks = library.getBooks();
+        Map<String, Integer> libraryBooks = library.getBooks();
 
         //then
         assertFalse(libraryBooks.isEmpty());
     }
 
     @Test
-    void shouldRemoveBookFromLibrary() {
+    void shouldUpdateBookCountInLibrary() {
         //given
-        List<Book> books = new ArrayList<>();
-        Book book = new Book();
-        books.add(book);
+        Map<String, Integer> books = new HashMap<>();
+        books.put("Maths", 2);
         Library library = new Library(books);
 
         //when
-        library.remove(book);
+        library.borrow("Maths");
+
+        //then
+        assertEquals(1, library.getBooks().size());
+        assertEquals(1, library.getBooks().get("Maths"));
+    }
+
+    @Test
+    void shouldRemoveBookFromLibraryIfThereIsOnlyOneCopy() {
+        //given
+        Map<String, Integer> books = new HashMap<>();
+        books.put("Maths", 1);
+        Library library = new Library(books);
+
+        //when
+        library.borrow("Maths");
 
         //then
         assertTrue(library.getBooks().isEmpty());

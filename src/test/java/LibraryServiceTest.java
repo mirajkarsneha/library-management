@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,37 +9,35 @@ public class LibraryServiceTest {
     @Test
     void shouldBorrowABookFromLibrary() throws Exception {
         //given
-        List<Book> books = new ArrayList<>();
-        Book book = new Book();
-        books.add(book);
+        Map<String, Integer> books = new HashMap<>();
+        books.put("Maths", 2);
         Library library = new Library(books);
 
         //when
         LibraryService libraryService = new LibraryService(library);
-        List<Book> borrowedBooks = libraryService.borrow(book);
+        libraryService.borrow("Maths");
 
         //then
-        assertFalse(borrowedBooks.isEmpty());
-        assertTrue(library.getBooks().isEmpty());
+        assertFalse(libraryService.getBorrowedBooks().isEmpty());
+        assertFalse(library.getBooks().isEmpty());
+        assertEquals(1, libraryService.getBorrowedBooks().get("Maths"));
+        assertEquals(1, library.getBooks().get("Maths"));
     }
 
     @Test
     void shouldNotBorrowMoreThanTwoBooksFromLibrary() throws Exception {
         //given
-        List<Book> books = new ArrayList<>();
-        Book book1 = new Book();
-        books.add(book1);
-        Book book2 = new Book();
-        books.add(book2);
-        Book book3 = new Book();
-        books.add(book3);
+        Map<String, Integer> books = new HashMap<>();
+        books.put("Maths", 2);
+        books.put("Science", 2);
+        books.put("Biology", 2);
         Library library = new Library(books);
 
         //when
         LibraryService libraryService = new LibraryService(library);
-        libraryService.borrow(book1);
-        libraryService.borrow(book2);
-        Exception exception = assertThrows(Exception.class, () -> libraryService.borrow(book3));
+        libraryService.borrow("Maths");
+        libraryService.borrow("Science");
+        Exception exception = assertThrows(Exception.class, () -> libraryService.borrow("Biology"));
 
         //then
         assertEquals("can not borrow more than 2 books", exception.getMessage());

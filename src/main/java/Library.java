@@ -1,18 +1,23 @@
-import java.util.List;
+import java.util.Map;
 
 public class Library {
 
-    private final List<Book> books;
+    private final Map<String, Integer> books;
 
-    public Library(List<Book> books) {
+    public Library(Map<String, Integer> books) {
         this.books = books;
     }
 
-    public List<Book> getBooks() {
+    public Map<String, Integer> getBooks() {
         return books;
     }
 
-    public void remove(Book book) {
-        books.remove(book);
+    public void borrow(String bookName) {
+        Integer bookCount = books.get(bookName);
+        if (bookCount > 1) {
+            books.put(bookName, bookCount - 1);
+        } else {
+            books.remove(bookName);
+        }
     }
 }

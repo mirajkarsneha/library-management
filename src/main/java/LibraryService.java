@@ -1,21 +1,24 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LibraryService {
 
-    private final List<Book> borrowedBooks = new ArrayList<>(2);
+    private final Map<String, Integer> borrowedBooks = new HashMap<>(2);
     private final Library library;
 
     public LibraryService(Library library) {
         this.library = library;
     }
 
-    public List<Book> borrow(Book book) throws Exception {
+    public void borrow(String book) throws Exception {
         if (borrowedBooks.size() == 2) {
            throw new Exception("can not borrow more than 2 books");
         }
-        borrowedBooks.add(book);
-        library.remove(book);
+        borrowedBooks.put(book, 1);
+        library.borrow(book);
+    }
+
+    public Map<String, Integer> getBorrowedBooks() {
         return borrowedBooks;
     }
 }
